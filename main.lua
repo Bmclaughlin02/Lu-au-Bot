@@ -8,13 +8,11 @@ file:close()
 
 client:on('ready', function()
 	print('Logged in as '.. client.user.username)
-	print('Bot token ' .. token)
 end)
 
 -- pong me if I ping you
 client:on('messageCreate', function(message)
-	if message.content == '!ping' then
-		print('Bug test, message was read')
+	if message.content == '!ping' then	
 		message:reply('Pong!')
 	end
 end)
