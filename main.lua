@@ -1,6 +1,9 @@
 -- Inital code/main file -- 
-local discord = require('discordia')
-local client = discord.Client()
+local spawn = require('coro-spawn')
+local split = require('coro-split')
+local parse = require('url').parse
+local discordia = require('discordia')
+local client = discordia.Client()
 
 file = io.open('config.txt', 'r')
 token = file:read()
@@ -10,17 +13,25 @@ client:on('ready', function()
 	print('Logged in as '.. client.user.username)
 end)
 
--- pong me if I ping you
 client:on('messageCreate', function(message)
 	if message.content == '!ping' then
 		message:reply('Pong!')
 	end
-end)
+
+	local forbiddenWords = {'fuck', 'shit', 'ass', 'nigger', 'nigga', 'faggot', 'bitch'}
+
+	for k, v in ipairs(forbiddenWords) do
+    		-- Delete the message and send a warning to the sender
+		if string.find(message.content:lower(), v) then
+    			message:delete()
+    			message:reply("Your message was deleted because it contained inappropriate content.")
+		end
+	end
 
 -- Simple experimental function using message read and if statements
-client:on('messageCreate', function(message)
-	postBody = message.content:lower()
-	isCommand = postBody:sub(1, 1) == '!'
+
+	local postBody = message.content:lower()
+	local isCommand = postBody:sub(1, 1) == '!'
 
 	if not isCommand then
 		return
