@@ -35,9 +35,10 @@ function getVideo(vid)
 	print('Fetching video')
 	if fileExists(audioFile) then
 		os.remove(audioFile)
+		os.remove('fetch.txt')
 	end
 
-	os.execute("powershell -file downloader.ps1 " .. vid)
+	os.execute("powershell -file downloader.ps1" .. vid)
 
 	while true do
 		print('downloading...')
