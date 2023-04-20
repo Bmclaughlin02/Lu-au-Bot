@@ -2,3 +2,5 @@
 config.txt
 discordia.log
 gateway.json
+/venv
+pyconf.txt

@@ -1,11 +1,6 @@
 -- Inital code/main file -- 
-local spawn = require('coro-spawn')
 local split = require('coro-split')
-local parse = require('url').parse
 local discordia = require('discordia')
-local http = require("socket.http")
-local json = require("json")
-local ltn12 = require("ltn12")
 local client = discordia.Client()
 
 file = io.open('config.txt', 'r')
@@ -104,49 +99,20 @@ client:on('messageCreate', function(message)
 
 	end
 
-	if postBody:sub(2) == 'weather' then
+	if command[1] == 'weather' then
+		local city = command[2]
+		os.execute('python weather.py ' .. city)
 
-		-- Prefix reference
-		local prefix = "!weather"
-
-		-- The API key for OpenWeatherMap
-		local api_key = "26bcda206e3b8a32bf4d8059b163a054"
-
-		-- Gets the weather information from OpenWeatherMap
-		function get_weather(city)
-
-			-- URL for the weather information API call
-			local url = string.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric", city, api_key)
-		
-			-- API call and store data in response_body table
-			local response_body = {}
-			local success, status_code, _, _ = http.request{url = url, method = "GET", headers = {["Content-Type"] = "application/json"},
-				sink = ltn12.sink.table(response_body) 
-			}
-
-			-- If API call was successful, decode the JSON response 
-			if success and status_code == 200 then
-
-				local response = json.decode(table.concat(response_body))
-
-				-- Get the information we need
-				local temperature = response.main.temp
-				temperature = (temperature * 9/5) + 32 -- convert temp 
-				local description = response.weather[1].description
-
-				-- Print the weather forecast
-				print(string.format("The weather forecast in %s is showing %s with a temperature of %d degrees Fahrenheit.", city, description, temperature))
+		while true do
+			if fileExists('report.txt') then
+				break
 			else
-				-- Print error message if the API call failed
-				print("Failed to fetch weather data.")
+				local start = os.time()
+				repeat until os.time() > start + 0.125
 			end
 		end
 
-		-- Get the city name after command
-		local city = message.content:sub(#prefix + 2)
-
-		-- Get the weather forecast for the city
-		get_weather(city)
+		message:reply({file = 'report.txt'})
 	end
 end)
 
