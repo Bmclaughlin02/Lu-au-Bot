@@ -24,10 +24,13 @@ if x["cod"] != "404":
     z = x["weather"]
     weather_description = z[0]["description"]
 
+    tempF = (current_temperature -273.15) * (9/5) + 32
+    tempF = round(tempF)
+
     # writes data to a text file to be read by lua
     f = open("report.txt", "w")
     f.write(" Temperature (in fahrenheit unit) = " +
-                    str((current_temperature -273.15) * (9/5) + 32) +
+                    str(tempF) +
           "\n atmospheric pressure (in hPa unit) = " +
                     str(current_pressure) +
           "\n humidity (in percentage) = " +

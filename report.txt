@@ -1,4 +1,0 @@
- Temperature (in kelvin unit) = 297.84
- atmospheric pressure (in hPa unit) = 1023
- humidity (in percentage) = 39
- description = scattered clouds
