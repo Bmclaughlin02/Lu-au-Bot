@@ -26,8 +26,8 @@ if x["cod"] != "404":
 
     # writes data to a text file to be read by lua
     f = open("report.txt", "w")
-    f.write(" Temperature (in kelvin unit) = " +
-                    str(current_temperature) +
+    f.write(" Temperature (in fahrenheit unit) = " +
+                    str((current_temperature -273.15) * (9/5) + 32) +
           "\n atmospheric pressure (in hPa unit) = " +
                     str(current_pressure) +
           "\n humidity (in percentage) = " +
