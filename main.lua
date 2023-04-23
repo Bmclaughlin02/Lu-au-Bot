@@ -2,6 +2,8 @@
 local split = require('coro-split')
 local discordia = require('discordia')
 local client = discordia.Client()
+local e = discordia.enums.gatewayIntent
+client:enableIntents(e.guildMembers, e.guildPresences, e.messageContent)
 
 file = io.open('config.txt', 'r')
 token = file:read()
@@ -47,6 +49,7 @@ client:on('ready', function()
 end)
 
 client:on('memberJoin', function(member)
+	print('I am being called properly')
     local WelcomeMessage = string.format("Hello %s, Welcome to our server!", member.username)
     client:getChannel('1099767452495249428'):send(WelcomeMessage)
 end)
