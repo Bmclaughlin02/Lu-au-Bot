@@ -27,29 +27,19 @@ function fileExists(name)
 	if f~=nil then io.close(f) return true else return false end
 end
 
-function getVideo(vid)
-	audioFile = 'audio.mp3'
+function getAudio(audio)
+	local audioFile = nil
+	local masterList = io.open(".//src//audioMasterList.txt")
 
-	print('Fetching video')
-	if fileExists(audioFile) then
-		os.remove(audioFile)
-		os.remove('fetch.txt')
-	end
-
-	os.execute("powershell -file downloader.ps1" .. vid)
-
-	while true do
-		print('downloading...')
-		if fileExists(audioFile) then
-			break
-		else
-			local start = os.time()
-			repeat until os.time() > start + 0.125
+	if masterList ~= nil then
+		for line in masterList:lines() do
+			if string.find(line, audio) then
+				audioFile = line .. ".mp3"
+			end
 		end
 	end
 
-	print('Done')
-	return audioFile
+	return './/src//'..audioFile
 end
 
 client:on('ready', function()
@@ -86,17 +76,20 @@ client:on('messageCreate', function(message)
 
 	if command[1] == 'hello' then
 		message:reply("Hi I am Lu'au Bot")
-	elseif command[1] == 'play' then
-		table.remove(command, 1)
-		local vid = table.concat(command, ' ')
-		local vc = client:getChannel('1077675032370745520')
-		local connection = vc:join()
-		print('making call to get video')
-		local stream = getVideo(vid)
-		coroutine.wrap(function()
+	end
+		
+	if command[1] == 'play' then
+		local audio = command[2]
+		local channel  = client:getChannel('1077675032370745520')
+		local connection = channel:join()
+		print('making call to get audio')
+		local stream = getAudio(audio)
+		print(stream)
+		if stream ~= nil then
 			connection:playFFmpeg(stream)
-		end)()
-
+		else
+			message:reply("There was a problem playing the file, either it does not exist or it was not added to the masterList")
+		end
 	end
 
 	if command[1] == 'weather' then

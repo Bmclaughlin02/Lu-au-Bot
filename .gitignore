@@ -5,3 +5,4 @@ gateway.json
 /venv
 pyconf.txt
 report.txt
+*.mp3
