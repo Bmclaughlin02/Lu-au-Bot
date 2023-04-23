@@ -46,6 +46,11 @@ client:on('ready', function()
 	print('Logged in as '.. client.user.username)
 end)
 
+client:on('memberJoin', function(member)
+    local WelcomeMessage = string.format("Hello %s, Welcome to our server!", member.username)
+    client:getChannel('1099767452495249428'):send(WelcomeMessage)
+end)
+
 client:on('messageCreate', function(message)
 	if message.content == '!ping' then
 		message:reply('Pong!')
