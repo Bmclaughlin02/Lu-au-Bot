@@ -68,7 +68,12 @@ client:on('messageCreate', function(message)
 	for k, v in ipairs(forbiddenWords) do
     		-- Delete the message and send a warning to the sender
 		if string.find(message.content:lower(), v) then
-			if (v == 'ass' and message.content:lower() == 'ass') then
+			if (v == 'ass') then
+				if (message.content:lower() == 'ass') then
+					message:delete()
+    				message:reply("Your message was deleted because it contained inappropriate content.")
+				end
+			else
 				message:delete()
     			message:reply("Your message was deleted because it contained inappropriate content.")
 			end
