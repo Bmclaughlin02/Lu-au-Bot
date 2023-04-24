@@ -63,13 +63,15 @@ client:on('messageCreate', function(message)
 	end
 
 	--This was contributed by Darius
-	local forbiddenWords = {'fuck', 'shit', ' ass ', 'nigger', 'nigga', 'faggot', 'bitch'}
+	local forbiddenWords = {'fuck', 'shit', 'ass', 'nigger', 'nigga', 'faggot', 'bitch'}
 
 	for k, v in ipairs(forbiddenWords) do
     		-- Delete the message and send a warning to the sender
 		if string.find(message.content:lower(), v) then
-    			message:delete()
+			if (v == 'ass' and message.content:lower() == 'ass') then
+				message:delete()
     			message:reply("Your message was deleted because it contained inappropriate content.")
+			end
 		end
 	end
 
