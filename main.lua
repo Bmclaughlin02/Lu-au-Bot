@@ -63,7 +63,7 @@ client:on('messageCreate', function(message)
 	end
 
 	--This was contributed by Darius
-	local forbiddenWords = {'fuck', 'shit', 'ass', 'nigger', 'nigga', 'faggot', 'bitch'}
+	local forbiddenWords = {'fuck', 'shit', ' ass ', 'nigger', 'nigga', 'faggot', 'bitch'}
 
 	for k, v in ipairs(forbiddenWords) do
     		-- Delete the message and send a warning to the sender
@@ -100,7 +100,10 @@ client:on('messageCreate', function(message)
 		local stream = getAudio(audio)
 		print(stream)
 		if stream ~= nil then
-			connection:playFFmpeg(stream)
+			coroutine.wrap(function()
+				connection:playFFmpeg(stream)
+				print('done streaming!')
+			  end)()
 		else
 			message:reply("There was a problem playing the file, either it does not exist or it was not added to the masterList")
 		end
