@@ -69,9 +69,13 @@ client:on('messageCreate', function(message)
     		-- Delete the message and send a warning to the sender
 		if string.find(message.content:lower(), v) then
 			if (v == 'ass') then
-				if (message.content:lower() == 'ass') then
-					message:delete()
-    				message:reply("Your message was deleted because it contained inappropriate content.")
+				local check = message.content
+				check = split(check, ' ')
+				for i, j in ipairs(check) do
+					if j == 'ass' then
+						message:delete()
+    					message:reply("Your message was deleted because it contained inappropriate content.")
+					end
 				end
 			else
 				message:delete()
@@ -156,30 +160,24 @@ client:on('messageCreate', function(message)
 
 	-- Method contributed by Nykyta
 	if command[1] == 'reaction' then
-		local x = math.random(10)
+		local x = math.random(0, 7)
 		local randImage = ""
 
 		if x == 0 then
 			randImage = "1.gif"
 		elseif x == 1 then
-			randImage = "2.jfif"
-		elseif x == 2 then
 			randImage = "3.gif"
-		elseif x == 3 then
+		elseif x == 2 then
 			randImage = "4.gif"
-		elseif x == 4 then
+		elseif x == 3 then
 			randImage = "5.jpg"
-		elseif x == 5 then
-			randImage = "6.jfif"
-		elseif x == 6 then
-			randImage = "7.jfif"
-		elseif x == 7 then
+		elseif x == 4 then
 			randImage = "8.gif"
-		elseif x == 8 then
+		elseif x == 5 then
 			randImage = "9.gif"
-		elseif x == 9 then
+		elseif x == 6 then
 			randImage = "10.gif"
-		elseif x == 10 then
+		elseif x == 7 then
 			randImage = "11.gif"
 		end
 
