@@ -9,6 +9,7 @@ file = io.open('config.txt', 'r')
 token = file:read()
 file:close()
 
+-- Split contributed by Jon, need to break up and return array of commands
 function split(input, sep)
 	local t = {}
 
