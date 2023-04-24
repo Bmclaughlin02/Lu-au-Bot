@@ -77,6 +77,7 @@ client:on('messageCreate', function(message)
 
 	local postBody = message.content:lower()
 	local isCommand = postBody:sub(1, 1) == '!'
+	local connection = nil
 	postBody = postBody:sub(2)
 
 	if not isCommand then
@@ -95,7 +96,7 @@ client:on('messageCreate', function(message)
 		local audio = command[2]
 		-- COPY VC FOR MUSIC COMMANDS HERE IN THE getChannel FIELD
 		local channel  = client:getChannel('1077675032370745520')
-		local connection = channel:join()
+		connection = channel:join()
 		print('making call to get audio')
 		local stream = getAudio(audio)
 		print(stream)
@@ -106,6 +107,26 @@ client:on('messageCreate', function(message)
 			  end)()
 		else
 			message:reply("There was a problem playing the file, either it does not exist or it was not added to the masterList")
+		end
+	end
+
+	if command[1] == 'pause' then
+		if connection ~= nil then
+			connection:pauseStream()
+		else
+			message:reply('No audio streaming, can not pause')
+		end
+	elseif command[1] == 'resume' then
+		if connection ~= nil then
+			connection:resumeStream()
+		else
+			message:reply('No audio streaming, can not resume')
+		end
+	elseif command[1] == 'stop' then
+		if connection ~= nil then
+			connection:stopStream()
+		else
+			message:reply('No audio streaming, can not stop')
 		end
 	end
 
